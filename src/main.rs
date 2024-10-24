@@ -28,21 +28,21 @@ async fn main() {
 }
 
 async fn benchmark_counter_canister() {
-    let v2_agent = {
-        let transport = Client::builder()
-            .use_rustls_tls()
-            .timeout(Duration::from_secs(360))
-            .build()
-            .expect("Could not create HTTP client.");
+    // let v2_agent = {
+    //     let transport = Client::builder()
+    //         .use_rustls_tls()
+    //         .timeout(Duration::from_secs(360))
+    //         .build()
+    //         .expect("Could not create HTTP client.");
 
-        let v2_reqwest_transport =
-            ReqwestTransport::create_with_client(API_BN_URL, transport).unwrap();
+    //     let v2_reqwest_transport =
+    //         ReqwestTransport::create_with_client(API_BN_URL, transport).unwrap();
 
-        Agent::builder()
-            .with_transport(v2_reqwest_transport)
-            .build()
-            .unwrap()
-    };
+    //     Agent::builder()
+    //         .with_transport(v2_reqwest_transport)
+    //         .build()
+    //         .unwrap()
+    // };
 
     let v3_agent = {
         let transport = Client::builder()
@@ -64,13 +64,16 @@ async fn benchmark_counter_canister() {
     let effective_canister_id = Principal::from_text(COUNTER_EFFECTIVE_CANISTER_ID).unwrap();
 
     // create a file and write durations to it
-    let mut v2_file = std::fs::File::create("v2_latencies.txt").unwrap();
+    // let mut v2_file = std::fs::File::create("v2_latencies.txt").unwrap();
     let mut v3_file = std::fs::File::create("v3_latencies.txt").unwrap();
 
     let bar = ProgressBar::new(NUMBER_OF_REQUESTS);
 
     loop {
-        for (agent, file) in vec![(&v3_agent, &mut v3_file)] {
+        for (agent, file) in vec![
+            (&v3_agent, &mut v3_file),
+            // (&v2_agent, &mut v2_file)
+        ] {
             loop {
                 let start = Instant::now();
                 match agent
