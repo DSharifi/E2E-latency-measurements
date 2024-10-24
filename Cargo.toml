@@ -1,0 +1,19 @@
+[package]
+name = "benchmark-counter-canister"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+candid = "0.10.10"
+ic-agent = { version = "0.37.1", features = [
+    "reqwest",
+    "experimental_sync_call",
+] }
+indicatif = "0.17.8"
+tokio = { version = "1.40.0", features = ["full"] }
+url = "2.5.2"
+reqwest = "0.12.7"
+ring = "0.17.8"
+serde = "1.0.130"
+serde_bytes = "0.11"
+base64 = "0.22.1"
